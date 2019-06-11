@@ -64,7 +64,6 @@ func (this *Csvdump) Run(){
 		line:=make([]string,len(*row))
 		for ii:=0;ii<len(cols);ii++ {
 			line[ii]=row.String(cols[ii])
-			ii++
 		}
 		this.outputRow(line...)
 	}
