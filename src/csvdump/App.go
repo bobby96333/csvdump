@@ -52,18 +52,20 @@ func (this *Csvdump) Run(){
 		i++
 		if i==1{
 			//first line
-			cols=make([]string,len(*row))
-			var ii=0
-			for key,_ :=range *row{
-				cols[ii]=key
-				ii++
+			cols,err=querying.Columns()
+			if err!=nil {
+				panic(err)
 			}
 			this.outputRow(cols...)
 		}
 		//output data
-		line:=make([]string,len(*row))
+		line:=make([]string,len(cols))
 		for ii:=0;ii<len(cols);ii++ {
-			line[ii]=row.String(cols[ii])
+			val:=row.String(cols[ii])
+			if val== "%!V(<nil>)" {
+				val=""
+			}
+			line[ii]=val
 		}
 		this.outputRow(line...)
 	}
